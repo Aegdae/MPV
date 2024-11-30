@@ -26,13 +26,11 @@ db_config =  {
 
 def send_email(recipient_email, subject, body):
     sender_email = "jonnathasg@gmail.com"
-    password = "mqbr ncdn alfi xoau"  # Senha normal ou senha de aplicativo
+    password = "mqbr ncdn alfi xoau"
 
-    # Configuração do servidor SMTP do Gmail
     smtp_server = "smtp.gmail.com"
     smtp_port = 587
 
-    # Criar a mensagem do e-mail
     message = MIMEMultipart()
     message["From"] = "MPV - Aplicativo <mpv@gmail.com>"
     message["To"] = recipient_email
@@ -40,12 +38,11 @@ def send_email(recipient_email, subject, body):
     message.attach(MIMEText(body, "plain"))
 
     try:
-        # Conectar ao servidor SMTP e enviar o e-mail
         server = smtplib.SMTP(smtp_server, smtp_port)
-        server.starttls()  # Iniciar criptografia TLS
+        server.starttls()
         server.login(sender_email, password)
         server.sendmail(sender_email, recipient_email, message.as_string())
-        server.quit()  # Fechar a conexão com o servidor
+        server.quit() 
         print("E-mail enviado com sucesso!")
     except Exception as e:
         print(f"Erro ao enviar e-mail: {e}")
@@ -158,14 +155,11 @@ def forgot_password():
                 flash("E-mail não encontrado.", "error")
                 return render_template('forgot_password.html')
 
-            # Gera um código numérico de 6 dígitos
             reset_code = str(random.randint(100000, 999999))
 
-            # Atualiza o código no banco de dados
             cursor.execute("UPDATE USUARIOS SET RESET_CODE = %s WHERE USER_EMAIL = %s", (reset_code, email))
             connect.commit()
 
-            # Envia o código por e-mail
             subject = "Redefinição de Senha"
             body = f"Seu código para redefinição de senha é: {reset_code}"
             send_email(email, subject, body)
@@ -206,7 +200,6 @@ def reset_password():
                 flash("Código inválido ou e-mail incorreto.", "error")
                 return render_template('reset_password.html')
 
-            # Atualiza a senha
             hashed_password = bcrypt.hashpw(new_password.encode('utf-8'), bcrypt.gensalt()).decode('utf-8')
             cursor.execute("UPDATE USUARIOS SET USER_PASSWORD = %s, RESET_CODE = NULL WHERE USER_EMAIL = %s",
                            (hashed_password, email))
