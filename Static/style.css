@@ -452,6 +452,9 @@ body {
     gap: 100px;
 }
 
+.feed-user .post {
+    margin-top: 20px;
+}
 
 /* Edit Profile */
 
