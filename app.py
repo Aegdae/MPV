@@ -1,7 +1,4 @@
 from flask import Flask, request, render_template, redirect, url_for, session, jsonify, flash
-from flask_wtf.csrf import CSRFProtect
-from flask_limiter import Limiter
-from flask_limiter.util import get_remote_address
 from email.mime.text import MIMEText
 from email.mime.multipart import MIMEMultipart
 from flask_cors import CORS
@@ -24,7 +21,6 @@ app.config['SESSION_COOKIE_HTTPONLY'] = True
 app.config['SESSION_COOKIE_SAMESITE'] = 'Strict'
 
 
-csrf = CSRFProtect(app)
 CORS(app)
 
 db_config =  {
@@ -35,12 +31,6 @@ db_config =  {
     "port": 5432
 }
 
-
-limiter = Limiter(
-    get_remote_address,
-    app=app,
-    default_limits=["200 per day", "50 per hour"]
-)
 
 
 
@@ -68,10 +58,7 @@ def send_email(recipient_email, subject, body):
         print(f"Erro ao enviar e-mail: {e}")
 
 
-
-
 @app.route("/login", methods=['GET', 'POST'])
-@limiter.limit("5 per minute")
 def login():
     if request.method == 'POST':
         email = request.form.get('email')
@@ -242,9 +229,6 @@ def reset_password():
 
 
 
-
-
-
 @app.route("/", methods=["GET", "POST"])
 def home():
     if "user_id" not in session:
@@ -321,7 +305,16 @@ def home():
 
     
         posts = [
-            post + (post[2], time_since_creation(post[2]))
+            {
+                'post_id': post[0],
+                'content': post[1],
+                'created_at': post[2],
+                'user_account': post[3],
+                'likes': post[4],
+                'user_id': post[5],
+                'liked': post[0] in liked_post_ids,
+                'time_since_creation': time_since_creation(post[2])
+            }
             for post in posts
         ]
 
@@ -335,7 +328,6 @@ def home():
             connect.close()
 
     return render_template("home.html", posts=posts, user_id=user_id)
-
 
 
 
@@ -586,7 +578,6 @@ def check_user_account():
 
 
 
-
 @app.route("/follow_unfollow/<int:user_id>", methods=["POST"])
 def follow_unfollow(user_id):
     if 'user_id' not in session:
@@ -727,4 +718,4 @@ def comment_post(post_id):
     return redirect(url_for("home"))
 
 if __name__ == "__main__":
-    app.run(debug=False)
+    app.run(debug=True)

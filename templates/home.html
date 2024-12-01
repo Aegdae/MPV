@@ -34,32 +34,18 @@
             </form>
             {% for post in posts %}
                 <div class="post">
-                    <p><strong><a href="{{ url_for('profile', user_id=post[5]) }}">{{ post[3] }}</a></strong></p>
-                    <p>{{ post[1] }}</p>
-                    <p><small>{{ post[7] }}</small></p>
+                    <p><strong><a href="{{ url_for('profile', user_id=post['user_id']) }}">{{ post['user_account'] }}</a></strong></p>
+                    <p>{{ post['content'] }}</p>
+                    <p><small>{{ post['time_since_creation'] }}</small></p>
                     <div class="reaction">
-                        <button id="like-button-{{ post[0] }}" onclick="toggleLike({{ post[0] }})">
-                            <span id="like-icon-{{ post[0] }}" class="material-symbols-outlined {% if post[6] %}liked{% else %}unliked{% endif %}">
+                        <button id="like-button-{{ post['post_id'] }}" onclick="toggleLike({{ post['post_id'] }})">
+                            <span id="like-icon-{{ post['post_id'] }}" class="material-symbols-outlined {% if post['liked'] %}liked{% else %}unliked{% endif %}">
                                 favorite
                             </span>
-                            <span id="like-count-{{ post[0] }}">{{ post[4] }}</span>
-                        </button>
-                        <div class="comment_layout">
-                            <form action="{{ url_for('comment_post', post_id=post[0]) }}" method="POST">
-                                <input type="text" name="comment_content" placeholder="Escreva um comentário" required>
-                                <button type="submit">Comentar</button>
-                            </form>
-                        </div>
-                        <div class="comments">
-                            {% for comment in post[9] %}
-                                <p>
-                                    <strong>{{ comment[0] }}:</strong> {{ comment[1] }}<br>
-                                    <small>{{ comment[2] }}</small>
-                                </p>
-                            {% endfor %}
-                        </div>
-                        {% if post[5] == session['user_id'] %}  <!-- Verificação se o post é do usuário logado -->
-                            <form action="{{ url_for('delet_post', post_id=post[0]) }}" method="POST" onsubmit="return confirm('Tem certeza que deseja excluir esta postagem?');">
+                            <span id="like-count-{{ post['post_id'] }}">{{ post['likes'] }}</span>
+                        </button>                    
+                        {% if post['user_id'] == session['user_id'] %}
+                            <form action="{{ url_for('delet_post', post_id=post['post_id']) }}" method="POST" onsubmit="return confirm('Tem certeza que deseja excluir esta postagem?');">
                                 <button type="submit">Apagar</button>
                             </form>
                         {% endif %}

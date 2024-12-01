@@ -59,19 +59,14 @@
             <div class="feed-user">
                 <h2>Posts</h2>
                 {% if posts %}
-                {% for post in posts %}
-                    <div class="post">
-                        <p><strong>{{ user[2] }}</strong></p>
-                        <p>{{ post[1] }}</p>
-                        <div class="date">
-                            <p><small>{{ post[4] }}</small></p>
-                            {% if post[3] == logged_in_user_id %}
-                                <form action="{{ url_for('delet_post', post_id=post[0]) }}" method="POST" onsubmit="return confirm('Tem certeza que deseja excluir esta postagem?');">
-                                    <button type="submit">Apagar</button>
-                                </form>
-                            {% endif %}
+                    {% for post in posts %}
+                        <div class="post">
+                            <p><strong>{{ user[2] }}</strong></p>
+                            <p>{{ post[1] }}</p>
+                            <div class="date">
+                                <p><small>{{ post[4] }}</small></p>
+                            </div>
                         </div>
-                    </div>
                     {% endfor %}
                 {% else %}
                     <p>Este usuário ainda não publicou nada.</p>

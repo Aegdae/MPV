@@ -304,9 +304,9 @@ body {
 
 .main-menu .reaction {
     display: flex;
-    align-items: center;
+    align-items: start;
     margin: 0;
-    gap: 8px;
+    gap: 500px;
 }
 
 .material-symbols-outlined {
@@ -326,22 +326,14 @@ body {
 }
 
 
-.main-menu .reaction button {
+.reaction button {
+    display: flex;
+    justify-content: space-between;
     border-radius: 15px;
     align-items: center;
     gap: 3px;
 }
 
-
-.reaction .comment_layout form{
-    display: flex;
-    outline: 0;
-}
-
-.reaction .comment_layout input {
-    border: none;
-    outline: 0;
-}
 
 
 
@@ -379,9 +371,9 @@ body {
     font-weight: 600;
 }
 
-
 .profile-container .information button:last-child {
-    display: block;
+    display: inline-block;
+    width: 90px;
     margin-left: 50px;
 }
 
@@ -422,38 +414,30 @@ body {
 }
 
 
-
-.feed-user a {
-    text-decoration: none;
-    color: #6cbdb5;
-    font-size: 16px;
-}
-
 .feed-user p {
-    font-size: 14px;
+    font-size: 16px;
 }
 
 .feed-user h2 {
     color: #6cbdb5;
 }
 
-.feed-user button {
-    display: flex;
-    align-items: center;
-    border: none;
-    color: #6cbdb5;
-    font-weight: 600;
-    gap: 5px;
-}
 
-.feed-user .date {
-    display: flex;
-    align-items: center;
-    gap: 100px;
+.date {
+    width: 120px;
+    display: inline-block;
+    text-align: right;
+    margin-left: 350px;
+
 }
 
 .feed-user .post {
+    width: 300px;
+    display: inline-block;
+    min-height: 150px;
     margin-top: 20px;
+    gap: 65px;
+    margin-right: 35px;
 }
 
 /* Edit Profile */
