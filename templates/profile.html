@@ -30,7 +30,7 @@
         <div class="profile-container">
             <div class="profile-user">
                 <div class="user">
-                    <h1>{{ user[2] }}</h1> <!-- Nome do usuário -->
+                    <h1>{{ user[2] }}</h1>
                     {% if user[0] == session['user_id'] %}
                         <a href="{{ url_for('edit_profile') }}" class="edit-profile-button" id="edit-perfil">Editar Perfil</a>
                     {% endif %}
@@ -52,7 +52,7 @@
                     {% endif %}
                 </div>
                 <div class="bio">
-                    <p><strong>Bio:</strong> {{ user[3] or "Ainda não adicionada." }}</p> <!-- Bio -->
+                    <p><strong>Bio:</strong> {{ user[3] or "Ainda não adicionada." }}</p>
                 </div>
             </div>
 
@@ -62,9 +62,9 @@
                 {% for post in posts %}
                     <div class="post">
                         <p><strong>{{ user[2] }}</strong></p>
-                        <p>{{ post[1] }}</p> <!-- Conteúdo do post -->
+                        <p>{{ post[1] }}</p>
                         <div class="date">
-                            <p><small>{{ post[4] }}</small></p> <!-- Data de criação -->
+                            <p><small>{{ post[4] }}</small></p>
                             {% if post[3] == logged_in_user_id %}
                                 <form action="{{ url_for('delet_post', post_id=post[0]) }}" method="POST" onsubmit="return confirm('Tem certeza que deseja excluir esta postagem?');">
                                     <button type="submit">Apagar</button>

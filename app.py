@@ -603,12 +603,10 @@ def follow_unfollow(user_id):
         existing_follow = cursor.fetchone()
 
         if existing_follow:
-            # Deixar de seguir
             cursor.execute("""
                 DELETE FROM FOLLOWERS WHERE FOLLOWER_USER_ID = %s AND FOLLOWED_USER_ID = %s
             """, (session['user_id'], user_id))
         else:
-            # Seguir
             cursor.execute("""
                 INSERT INTO FOLLOWERS (FOLLOWER_USER_ID, FOLLOWED_USER_ID) VALUES (%s, %s)
             """, (session['user_id'], user_id))
@@ -729,4 +727,4 @@ def comment_post(post_id):
     return redirect(url_for("home"))
 
 if __name__ == "__main__":
-    app.run(debug=True)
+    app.run(debug=False)
