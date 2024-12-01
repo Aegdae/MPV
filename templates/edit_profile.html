@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Editar Perfil - MPV</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <meta name="csrf-token" content="{{ csrf_token() }}">
 </head>
 <body>
     <header>
@@ -29,13 +30,23 @@
             <h1>Editar Perfil</h1>
             <div class="options">
                 <form action="{{ url_for('update_profile') }}" method="POST">
-                    <label for="user_name">Usuario</label>
-                    <input type="text" name="user_account" id="user_account" value="{{ user_account }}" required placeholder="Usuario">
+                    <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+                    <label for="user_account">Usuario</label>
+                    <input type="text" name="user_account" id="user_account" 
+                           value="{{ user_account}}" 
+                           required placeholder="Usuario">
                     <span id="user_account_error" style="color: red; display: none;">Este nome de usuário já está em uso.</span>
-                    <label for="user_account">Nome</label>
-                    <input type="text" name="user_name" id="user_name" value="{{ user_name }}" required placeholder="Nome">
+                    
+                    <label for="user_name">Nome</label>
+                    <input type="text" name="user_name" id="user_name" 
+                           value="{{ user_name }}" 
+                           required placeholder="Nome">
+                    
                     <label for="bio">Bio</label>
-                    <textarea name="bio" id="bio" placeholder="Bio" rows="5" cols="20">{{ bio }}</textarea>
+                    <textarea name="bio" id="bio" placeholder="Bio" rows="5" cols="20">
+                        {{ bio.strip() }}
+                    </textarea>
+                    
                     <button type="submit">Salvar alterações</button>
                 </form>
             </div>

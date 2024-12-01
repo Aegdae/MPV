@@ -1,20 +1,31 @@
 from flask import Flask, request, render_template, redirect, url_for, session, jsonify, flash
-import smtplib
-import random
+from flask_wtf.csrf import CSRFProtect
+from flask_limiter import Limiter
+from flask_limiter.util import get_remote_address
 from email.mime.text import MIMEText
 from email.mime.multipart import MIMEMultipart
 from flask_cors import CORS
+from psycopg2 import sql
+from datetime import datetime, timedelta
+import smtplib
+import random
 import bcrypt
 import psycopg2
-from psycopg2 import sql
-from datetime import datetime
+
 import os
 
 
-app = Flask(__name__)
-CORS(app)
 
+app = Flask(__name__)
 app.secret_key = os.urandom(24)
+app.permanent_session_lifetime = timedelta(minutes=30)
+app.config['SESSION_COOKIE_SECURE'] = True
+app.config['SESSION_COOKIE_HTTPONLY'] = True
+app.config['SESSION_COOKIE_SAMESITE'] = 'Strict'
+
+
+csrf = CSRFProtect(app)
+CORS(app)
 
 db_config =  {
     "dbname": "Social",
@@ -23,6 +34,15 @@ db_config =  {
     "host": "localhost",
     "port": 5432
 }
+
+
+limiter = Limiter(
+    get_remote_address,
+    app=app,
+    default_limits=["200 per day", "50 per hour"]
+)
+
+
 
 def send_email(recipient_email, subject, body):
     sender_email = "jonnathasg@gmail.com"
@@ -48,7 +68,10 @@ def send_email(recipient_email, subject, body):
         print(f"Erro ao enviar e-mail: {e}")
 
 
+
+
 @app.route("/login", methods=['GET', 'POST'])
+@limiter.limit("5 per minute")
 def login():
     if request.method == 'POST':
         email = request.form.get('email')
@@ -135,8 +158,6 @@ def register():
     return render_template('register.html')
 
 
-
-
 @app.route('/forgot_password', methods=['GET', 'POST'])
 def forgot_password():
     if request.method == 'POST':
@@ -218,18 +239,6 @@ def reset_password():
                 connect.close()
 
     return render_template('reset_password.html')
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
@@ -436,33 +445,42 @@ def profile(user_id):
 def edit_profile():
     if 'user_id' not in session:
         return redirect(url_for('login'))
-    
+
     user_id = session['user_id']
     try:
         connect = psycopg2.connect(**db_config)
         cursor = connect.cursor()
+        print(f"Executando consulta SQL para obter informações do usuário com ID: {user_id}")
 
         cursor.execute("""
-            SELECT user_name, bio FROM usuarios WHERE id = %s
+            SELECT user_name, user_account, bio FROM usuarios WHERE id = %s
         """, (user_id,))
         user = cursor.fetchone()
 
+        if user:
+            user_name, user_account, bio = user
+        else:
+            user_name, user_account, bio = '', '', '' 
+
         if request.method == 'POST':
-            new_username = request.form.get('username')
-            new_bio = request.form.get('bio')
+            new_user_account = request.form.get['user_account']
+            new_user_name = request.form.get['user_name']
+            new_bio = request.form.get['bio'].strip()
 
             cursor.execute("""
-                UPDATE users SET user_name = %s, bio = %s WHERE id = %s
-            """, (new_username, new_bio, user_id))
+                UPDATE usuarios
+                SET user_name = %s, user_account = %s, bio = %s
+                WHERE id = %s
+            """, (new_user_name, new_user_account, new_bio, user_id))
             connect.commit()
 
             return redirect(url_for('profile', user_id=user_id))
 
-        return render_template('edit_profile.html', user=user)
+        return render_template('edit_profile.html', user_name=user_name, user_account=user_account, bio=bio)
 
     except Exception as e:
         return f"Erro ao editar perfil: {e}"
-    
+
     finally:
         if cursor:
             cursor.close()
@@ -514,6 +532,7 @@ def update_profile():
                 connect.close()
 
         return redirect(url_for('profile', user_id=user_id))
+    
 
     try:
         connect = psycopg2.connect(**db_config)

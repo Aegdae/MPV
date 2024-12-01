@@ -73,3 +73,15 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     });
 });
+
+
+const csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
+
+fetch('/login', {
+    method: 'POST',
+    headers: {
+        'Content-Type': 'application/json',
+        'X-CSRFToken': csrfToken
+    },
+    body: JSON.stringify({ username: 'user', password: 'pass' })
+});
