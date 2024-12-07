@@ -15,7 +15,6 @@ import os
 
 app = Flask(__name__)
 app.secret_key = os.urandom(24)
-app.permanent_session_lifetime = timedelta(minutes=30)
 app.config['SESSION_COOKIE_SECURE'] = True
 app.config['SESSION_COOKIE_HTTPONLY'] = True
 app.config['SESSION_COOKIE_SAMESITE'] = 'Strict'
@@ -31,6 +30,29 @@ db_config =  {
     "port": 5432
 }
 
+
+def time_since_creation(created_at):
+            if isinstance(created_at, str): 
+                created_at = datetime.strptime(created_at, "%Y-%m-%d %H:%M:%S")
+            now = datetime.now()
+            delta = now - created_at
+
+            if delta.days > 0:
+                if delta.days == 1:
+                    return "1 dia atrás"
+                return f"{delta.days} dias atrás"
+            elif delta.seconds < 3600:
+                minutes = delta.seconds // 60
+                if minutes == 1:
+                    return "1 minuto atrás"
+                return f"{minutes} minutos atrás"
+            elif delta.seconds < 86400:
+                hours = delta.seconds // 3600
+                if hours == 1:
+                    return "1 hora atrás"
+                return f"{hours} horas atrás"
+            else:
+                return "Agora mesmo"
 
 
 
@@ -89,8 +111,10 @@ def login():
             return render_template("login.html"), 500
 
         finally:
-            cursor.close()
-            connect.close()
+            if cursor:
+                cursor.close()
+            if connect:
+                connect.close()
 
     return render_template("login.html")
 
@@ -139,8 +163,10 @@ def register():
             return f"Erro ao criar conta {e}"
 
         finally:
-            cursor.close()
-            connect.close()
+            if cursor:
+                cursor.close()
+            if connect:
+                connect.close()
 
     return render_template('register.html')
 
@@ -278,32 +304,7 @@ def home():
             ORDER BY P.CREATED_AT DESC
             """
         )
-        posts = cursor.fetchall()
-
-        def time_since_creation(created_at):
-            if isinstance(created_at, str): 
-                created_at = datetime.strptime(created_at, "%Y-%m-%d %H:%M:%S")
-            now = datetime.now()
-            delta = now - created_at
-
-            if delta.days > 0:
-                if delta.days == 1:
-                    return "1 dia atrás"
-                return f"{delta.days} dias atrás"
-            elif delta.seconds < 3600:
-                minutes = delta.seconds // 60
-                if minutes == 1:
-                    return "1 minuto atrás"
-                return f"{minutes} minutos atrás"
-            elif delta.seconds < 86400:
-                hours = delta.seconds // 3600
-                if hours == 1:
-                    return "1 hora atrás"
-                return f"{hours} horas atrás"
-            else:
-                return "Agora mesmo"
-
-    
+        posts = cursor.fetchall()  
         posts = [
             {
                 'post_id': post[0],
@@ -384,28 +385,6 @@ def profile(user_id):
             post + (post[0] in liked_post_ids,) 
         for post in posts
         ]
-
-
-        def time_since_creation(created_at):
-            now = datetime.now()
-            delta = now - created_at
-
-            if delta.days > 0:
-                if delta.days == 1:
-                    return "1 dia atrás"
-                return f"{delta.days} dias atrás"
-            elif delta.seconds < 3600:
-                minutes = delta.seconds // 60
-                if minutes == 1:
-                    return "1 minuto atrás"
-                return f"{minutes} minutos atrás"
-            elif delta.seconds < 86400:
-                hours = delta.seconds // 3600
-                if hours == 1:
-                    return "1 hora atrás"
-                return f"{hours} horas atrás"
-            else:
-                return "Agora mesmo"
 
         posts = [(post[0], post[1], post[2], post[3], time_since_creation(post[2]), post[4]) for post in posts]
 
