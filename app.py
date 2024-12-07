@@ -418,7 +418,6 @@ def edit_profile():
     try:
         connect = psycopg2.connect(**db_config)
         cursor = connect.cursor()
-        print(f"Executando consulta SQL para obter informações do usuário com ID: {user_id}")
 
         cursor.execute("""
             SELECT user_name, user_account, bio FROM usuarios WHERE id = %s
