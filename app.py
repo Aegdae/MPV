@@ -255,6 +255,8 @@ def reset_password():
 
 
 
+
+
 @app.route("/", methods=["GET", "POST"])
 def home():
     if "user_id" not in session:
@@ -331,8 +333,6 @@ def home():
     return render_template("home.html", posts=posts, user_id=user_id)
 
 
-
-
 @app.route('/profile/<int:user_id>', methods=['GET', 'POST'])
 def profile(user_id):
     if 'user_id' not in session:
@@ -407,9 +407,6 @@ def profile(user_id):
         is_following=is_following,
         logged_in_user_id=session['user_id']  
 )
-
-
-
 
 
 @app.route('/edit_profile', methods=['GET', 'POST'])
