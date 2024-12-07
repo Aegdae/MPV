@@ -3,7 +3,7 @@ from email.mime.text import MIMEText
 from email.mime.multipart import MIMEMultipart
 from flask_cors import CORS
 from psycopg2 import sql
-from datetime import datetime, timedelta
+from datetime import datetime
 import smtplib
 import random
 import bcrypt
