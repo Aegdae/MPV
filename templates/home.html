@@ -27,9 +27,9 @@
     </header>
     <main>
         <div class="main-menu">
-            <h2>For you</h2>
+            <h2>Para você</h2>
             <form action="/" method="post" id="tweet">
-                <textarea name="content" placeholder="Escreva o que você está pensando..." maxlength="150" rows="4" cols="80"></textarea>
+                <textarea name="content" placeholder="Escreva o que você está pensando..." maxlength="150" rows="3" cols="76" class="text"></textarea>
                 <button type="submit" id="tweet">Postar</button>
             </form>
             {% for post in posts %}
@@ -38,11 +38,11 @@
                     <p>{{ post['content'] }}</p>
                     <p><small>{{ post['time_since_creation'] }}</small></p>
                     <div class="reaction">
-                        <button id="like-button-{{ post['post_id'] }}" onclick="toggleLike({{ post['post_id'] }})">
+                        <button id="like-button-{{ post['post_id'] }}" onclick="toggleLike({{ post['post_id'] }})" class="like-button">
                             <span id="like-icon-{{ post['post_id'] }}" class="material-symbols-outlined {% if post['liked'] %}liked{% else %}unliked{% endif %}">
                                 favorite
                             </span>
-                            <span id="like-count-{{ post['post_id'] }}">{{ post['likes'] }}</span>
+                            <span id="like-count-{{ post['post_id'] }}" class="like-count">{{ post['likes'] }}</span>
                         </button>                    
                         {% if post['user_id'] == session['user_id'] %}
                             <form action="{{ url_for('delet_post', post_id=post['post_id']) }}" method="POST" onsubmit="return confirm('Tem certeza que deseja excluir esta postagem?');">

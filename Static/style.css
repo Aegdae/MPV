@@ -5,6 +5,7 @@
 body {
     font-family: "Open Sans", sans-serif;
     margin: 0;
+    background-color: #002930;
     padding: 0;
 }
 
@@ -225,7 +226,7 @@ body {
     border-radius: 15px;
     border: none;
     font-weight: 700;
-    color: white;
+    color: #ffff;
 }
 
 .container-home .nav-right a {
@@ -248,11 +249,12 @@ body {
     display: flex;
     justify-content: center;
     flex-direction: column;
-    width: 100%; 
-    margin-bottom: 15px; 
-    margin-left: 70px;
+    width: 86%; 
+    margin-bottom: 7px; 
+    margin-right: 60px;
     padding: 10px;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    color: #ffff;
+    box-shadow: 0 2px 3px 0 #6cbdb5;
 }
 
 .main-menu #tweet {
@@ -277,19 +279,27 @@ body {
 
 .main-menu #tweet button{
     background-color: #6cbdb5;
-    color: white;
+    color: #ffff;
 
 }
 
 .main-menu textarea {
     font-family: "Open Sans", sans-serif;
-    font-weight: 600;
-    font-size: 15px;
+    font-weight: 400;
+    font-size: 17px;
+    width: 100%;
     display: flex;
     resize: none;
-    outline-color: #6cbdb5;
-    border: solid 0.3px #6cbdb5;
-    border-radius: 10px 10px 0px 10px;
+    background-color: #002930;
+    color: #ffff;
+    outline: none;
+    border: solid 0.4px #6cbdb5;
+}
+
+.main-menu textarea::placeholder {
+    color: #ffff;
+    text-align: center;
+
 }
 
 .main-menu button {
@@ -298,8 +308,13 @@ body {
     padding: 7px 10px;
     font-weight: 600;
     border: none;
-    color: #6cbdb5;
+    color: #ffff;
+    background-color: #6cbdb5;
     border-radius: 0px 10px 10px 0px;
+}
+
+.main-menu .like-button {
+    background-color: #002930;
 }
 
 .main-menu .reaction {
@@ -311,7 +326,7 @@ body {
 
 .material-symbols-outlined {
     font-size: 36px;
-    color: #dcdcdc;   
+    color: #ffff;   
     transition: color 0.3s ease; 
 }
 
@@ -332,6 +347,10 @@ body {
     border-radius: 15px;
     align-items: center;
     gap: 3px;
+}
+
+.reaction .like-count {
+    color: #6cbdb5;
 }
 
 
@@ -403,6 +422,13 @@ body {
     flex-direction: column;
 }
 
+.profile-container h1 {
+    color: #6cbdb5;
+}
+
+.profile-container p {
+    color: #ffff;
+}
 
 
 /* Feed Profile */
