@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MPV</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <main>
+        <div class="container-index">
+            <div class="logo">
+                <a href="{{ url_for('home') }}">MPV</a>
+            </div>
+            <div class="login">
+                <form action="/login" method="POST">
+                    <input type="email" name="email" id="email" placeholder="Email" required>
+                    <input type="password" name="password" id="password" placeholder="Senha" required>
+                    {% with messages = get_flashed_messages(with_categories=true) %}
+                        {% if messages %}
+                            {% for category, message in messages %}
+                                {% if category == 'error' %}
+                                    <div class="flash-message {{ category }}">{{ message }}</div>
+                                {% endif %}
+                            {% endfor %}
+                        {% endif %}
+                    {% endwith %}
+                    <button type="submit">Entrar</button>
+                </form>
+            </div>
+            <div class="register">
+                <p>Não tem uma conta? <a href="{{ url_for('register') }}">Cadastre-se</a></p>
+            </div>
+            <div class="forgot">
+                <p><a href="{{ url_for('forgot_password') }}">Esqueceu a senha?</a></p>
+            </div>
+        </div>
+    </main>
+    <script src="{{ url_for('static', filename='script.js') }}"></script>
+</body>
+</html>

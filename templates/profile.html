@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Perfil - MPV</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200&icon_names=favorite" />
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+</head>
+<body>
+    <header>
+        <div class="container-home">
+            <div class="nav">
+                <div class="nav-left">
+                    <div class="logo">
+                        <a href="{{ url_for('home') }}">MPV</a>
+                    </div>
+                </div>
+                <div class="nav-right">
+                    <form action="{{ url_for('logout') }}">
+                        <button type="submit">Sair</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <main>
+        <div class="profile-container">
+            <div class="profile-user">
+                <div class="user">
+                    <h1>{{ user[2] }}</h1>
+                    {% if user[0] == session['user_id'] %}
+                        <a href="{{ url_for('edit_profile') }}" class="edit-profile-button" id="edit-perfil">Editar Perfil</a>
+                    {% endif %}
+                </div>
+                <div class="information">
+                    <p><strong>Posts:</strong> {{ num_posts }}</p>
+                    <p><strong>Seguidores:</strong> {{ followers_count }}</p>
+                    <p><strong>Seguindo:</strong> {{ following_count }}</p>
+                    {% if user[0] != session['user_id'] %}
+                        <form action="{{ url_for('follow_unfollow', user_id=user[0]) }}" method="POST">
+                            <button type="submit" class="follow">
+                                {% if not is_following %}
+                                    Seguir
+                                {% else %}
+                                    Seguindo
+                                {% endif %}
+                            </button>
+                        </form>
+                    {% endif %}
+                </div>
+                <div class="bio">
+                    <p><strong>Bio:</strong> {{ user[3] or "Ainda não adicionada." }}</p>
+                </div>
+            </div>
+
+            <div class="feed-user">
+                <h2>Posts</h2>
+                {% if posts %}
+                    {% for post in posts %}
+                        <div class="post">
+                            <p><strong>{{ user[2] }}</strong></p>
+                            <p>{{ post[1] }}</p>
+                            <div class="date">
+                                <p><small>{{ post[4] }}</small></p>
+                            </div>
+                        </div>
+                    {% endfor %}
+                {% else %}
+                    <p>Este usuário ainda não publicou nada.</p>
+                {% endif %}
+            </div>
+        </div>
+    </main>
+    <footer>
+        <div class="toggle-mode">
+            <button id="toggle-theme">
+                <i id="theme-icon" class="fas fa-moon"></i>
+            </button>
+        </div>
+    </footer>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="{{ url_for('static', filename='script.js') }}"></script>
+</body>
+</html>

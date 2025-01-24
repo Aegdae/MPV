@@ -1,0 +1,541 @@
+@import url('https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300..800;1,300..800&family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap');
+
+@import url('https://fonts.googleapis.com/css2?family=Jaro:opsz@6..72&family=Open+Sans:ital,wght@0,300..800;1,300..800&family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap');
+
+:root {
+    --bg-color: #ffffff;
+    --text-color: #000000;
+    --toggle-theme: #492d49;
+}
+
+.dark-mode {
+    --bg-color: #0e0e0e;
+    --text-color: #ffffff;
+    --toggle-theme: #fcb653;
+}
+
+body {
+    font-family: "Open Sans", sans-serif;
+    margin: 0;
+    background-color: var(--bg-color);
+    padding: 0;
+}
+
+.logo a {
+    font-family: "Jaro", sans-serif;
+    font-size: 45px;
+    color: #5cacc4;
+    text-decoration: none;
+}
+
+/* Login */
+
+.container-index {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin: 250px;
+}
+
+.container-index .login form {
+    display: flex;
+    flex-direction: column;
+    margin-top: 15px;
+    gap: 20px;
+}
+
+.container-index .register {
+    margin-top: 15px;
+}
+
+.container-index .register a {
+    text-decoration: none;
+    color: #5cacc4;
+    font-weight: 600;
+}
+
+.container-index .flash-message {
+    display: flex;
+    margin: 0 auto;
+    font-size: 13px;
+    color: #d9543f;
+}
+
+.container-index input {
+    font-family: "Open Sans", sans-serif;
+    padding: 13px 20px;
+    font-size: 15px;
+}
+
+.container-index button {
+    font-family: "Open Sans", sans-serif;
+    padding: 15px;
+    border-radius: 7px;
+    background-color: #5cacc4;
+    font-weight: 600;
+    color: #ffffff;
+    border: none;
+}
+
+.container-index .forgot {
+    margin-top: 15px;
+}
+
+.container-index .forgot a {
+    text-decoration: none;
+    color: #5cacc4;
+    font-weight: 600;
+}
+
+
+
+/* Registrar */
+
+.container-register {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin: 250px;
+}
+
+.container-register .register form {
+    display: flex;
+    flex-direction: column;
+    margin-top: 15px;
+    gap: 20px;
+}
+
+.container-register input {
+    font-family: "Open Sans", sans-serif;
+    padding: 13px 20px;
+    font-size: 15px;
+}
+
+.container-register button {
+    font-family: "Open Sans", sans-serif;
+    padding: 15px;
+    border-radius: 7px;
+    background-color: #5cacc4;
+    font-weight: 600;
+    color: #ffffff;
+    border: none;
+}
+
+
+/* Forgot Password */
+
+.container-forgot {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin: 250px;
+
+}
+
+.container-forgot form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 15px;
+    gap: 15px;
+}
+
+
+.container-forgot label {
+    font-weight: 700;
+}
+
+.container-forgot input {
+    padding: 10px 35px;
+    outline: none;
+}
+
+.container-forgot button {
+    padding: 10px 15px;
+    border: none;
+    background-color: #5cacc4;
+    font-weight: 600;
+    border-radius: 15px;
+    color: #ffffff;
+}
+
+
+
+/* Reset Password */
+
+.container-reset {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin-top: 250px;
+}
+
+.container-reset button:last-child {
+    margin-top: 25px;
+    padding: 10px 15px;
+    border: none;
+    background-color: #5cacc4;
+    font-weight: 600;
+    border-radius: 15px;
+    color: #ffffff;
+}
+
+.container-reset form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 5px;
+    margin-top: 15px;
+}
+
+.container-reset label {
+    font-weight: 700;
+}
+
+.container-reset input {
+    padding: 10px 35px;
+    outline: none;
+    text-align: center;
+}
+
+.container-reset a {
+    cursor: pointer;
+}
+
+
+
+
+
+
+/* home */
+
+.container-home {
+    display: flex;
+    flex-direction: column;
+}
+
+.container-home .nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin:15px 20px 40px;
+    gap: 40px;
+}
+
+.container-home .nav-right {
+    display: flex;
+    gap: 35px;
+    align-items: center;
+}
+
+.container-home .nav-right button {
+    padding: 8px 14px;
+    background-color: #5cacc4;
+    border-radius: 15px;
+    font-size: 15px;
+    border: none;
+    font-weight: 600;
+    color: #ffff;
+}
+
+.container-home .nav-right a {
+    text-decoration: none;
+    font-size: 14px;
+    color: var(--text-color);
+    font-weight: 600;
+}
+
+.main-menu {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 10px;
+    width: 100%;
+}
+
+.main-menu .post {
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    width: 89.2%; 
+    margin-bottom: 7px; 
+    margin-right: 63px;
+    padding: 10px;
+    color: var(--text-color);
+    box-shadow: 0px 1px 2px 0px #bdbdbd;
+}
+
+.main-menu #tweet {
+    display: flex;
+    justify-content: center;
+    align-items: end;
+}
+
+.main-menu .post a {
+    text-decoration: none;
+    color: var(--text-color);
+    font-size: 16px;
+}
+
+.main-menu .post p {
+    font-size: 14px;
+}
+
+.main-menu h2 {
+    color: #5cacc4;
+}
+
+.main-menu #tweet button{
+    background-color: #5cacc4;
+    color: #ffff;
+
+}
+
+.main-menu textarea {
+    font-family: "Open Sans", sans-serif;
+    font-weight: 400;
+    font-size: 17px;
+    width: 100%;
+    display: flex;
+    resize: none;
+    background-color: var(--bg-color);
+    color: var(--text-color);
+    outline: none;
+    border: solid 0.4px #5cacc4;
+}
+
+.main-menu textarea::placeholder {
+    color: var(--text-color);
+    text-align: center;
+
+}
+
+.main-menu button {
+    display: flex;
+    align-items: end;
+    padding: 7px 10px;
+    font-weight: 600;
+    border: none;
+    color: #ffffff;
+    background-color: #5cacc4;
+    border-radius: 0px 10px 10px 0px;
+}
+
+.main-menu .like-button {
+    background-color: var(--bg-color);
+}
+
+.main-menu .reaction {
+    display: flex;
+    align-items: start;
+    margin: 0;
+    gap: 500px;
+}
+
+.material-symbols-outlined {
+    color: var(--text-color);   
+    transition: color 0.3s ease; 
+}
+
+
+.material-symbols-outlined.liked {
+    color: #fc1a1a;
+}
+
+.material-symbols-outlined:hover {
+    cursor: pointer;
+    color: #fc1a1a;
+}
+
+
+.reaction button {
+    display: flex;
+    justify-content: space-between;
+    border-radius: 15px;
+    align-items: center;
+    gap: 3px;
+}
+
+.reaction .like-count {
+    color: var(--text-color);
+}
+
+
+
+/* Profile */
+
+.profile-container {
+    display: flex;
+    flex-direction: column;
+}
+
+.profile-container .profile-user {
+    display: flex;
+    flex-direction: column;
+    margin: 0 auto;
+}
+
+.profile-container .user {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    gap: 100px;
+}
+
+.profile-container .user h1 {
+    font-size: 25px;
+}
+
+.profile-container .user a {
+    text-decoration: none;
+    color: white;
+    background-color: #5cacc4;
+    font-size: 13px;
+    padding:  6px 8px;
+    border-radius: 15px;
+    font-weight: 600;
+}
+
+.profile-container .information button:last-child {
+    display: inline-block;
+    width: 90px;
+    margin-left: 50px;
+}
+
+.profile-container .follow {
+    padding: 7px 15px;
+    background-color: #5cacc4;
+    color: white;
+    border: none;
+    font-weight: 700;
+    border-radius: 10px;
+}
+
+.profile-container .follow.active {
+    background-color: #c0c2bd; 
+    color: #6cbdb5; 
+}
+
+.profile-container .information {
+    display: flex;
+    gap: 40px;
+    align-items: center;
+}
+
+.profile-container .bio {
+    display: flex;
+    margin: 0 auto;
+    flex-direction: column;
+}
+
+.profile-container h1 {
+    color: #5cacc4;
+}
+
+.profile-container p {
+    color: var(--text-color);
+}
+
+
+/* Feed Profile */
+
+.feed-user {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+
+.feed-user p {
+    font-size: 16px;
+}
+
+.feed-user h2 {
+    color: #5cacc4;
+}
+
+
+.date {
+    width: 120px;
+    display: inline-block;
+    text-align: right;
+    margin-left: 350px;
+
+}
+
+.feed-user .post {
+    width: 300px;
+    display: inline-block;
+    min-height: 150px;
+    margin-top: 20px;
+    gap: 65px;
+    margin-right: 35px;
+}
+
+/* Edit Profile */
+
+.edit-profile-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    gap: 15px;
+}
+
+.edit-profile-container .options form{
+    display: flex;
+    flex-direction: column;
+    text-align: start;
+    gap: 3px;
+}
+
+.edit-profile-container .options input {
+    width: 300px;
+    height: 30px;
+    text-align: start;
+    outline: none;
+    font-size: 14px;
+}
+
+.edit-profile-container .options textarea {
+    font-family: "Open Sans", sans-serif;
+    font-size: 14px;
+    resize: none;
+    outline: none;
+}
+
+.edit-profile-container .options form button:last-child {
+    margin-top: 30px;
+    background-color: #6cbdb5;
+    border: 15px;
+    padding: 14px;
+    border-radius: 15px;
+    color: white;
+    font-weight: 700;
+}
+
+
+
+/* footer */
+.toggle-mode {
+    position: fixed;
+    left: 2px;
+    bottom: 2px;
+}
+
+.toggle-mode button {
+    border-radius: 15px;
+    width: 25px;
+    height: 25px;
+    border: none;
+    color: #ffffff;
+    background-color: var(--toggle-theme);
+    transition: ease 0.4s;
+}

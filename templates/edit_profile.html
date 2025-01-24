@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Editar Perfil - MPV</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <header>
+        <div class="container-home">
+            <div class="nav">
+                <div class="nav-left">
+                    <div class="logo">
+                        <a href="{{ url_for('home') }}">MPV</a>
+                    </div>
+                </div>
+                <div class="nav-right">
+                    <form action="{{ url_for('logout') }}" method="POST">
+                        <button type="submit">Sair</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <main>
+        <div class="edit-profile-container">
+            <h1>Editar Perfil</h1>
+            <div class="options">
+                <form action="{{ url_for('update_profile') }}" method="POST">
+                    <label for="user_account">Usuario</label>
+                    <input type="text" name="user_account" id="user_account" 
+                           value="{{ user_account}}" 
+                           required placeholder="Usuario">
+                    <span id="user_account_error" style="color: red; display: none;">Este nome de usuário já está em uso.</span>
+                    
+                    <label for="user_name">Nome</label>
+                    <input type="text" name="user_name" id="user_name" 
+                           value="{{ user_name }}" 
+                           required placeholder="Nome">
+                    
+                    <label for="bio">Bio</label>
+                    <textarea name="bio" id="bio" placeholder="Bio" rows="5" cols="20">
+                        {{ bio.strip() }}
+                    </textarea>
+                    
+                    <button type="submit">Salvar alterações</button>
+                </form>
+            </div>
+        </div>
+    </main>
+    <footer>
+        <div class="toggle-mode">
+            <button id="toggle-theme">
+                <i id="theme-icon" class="fas fa-moon"></i>
+            </button>
+        </div>
+    </footer>    
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="{{ url_for('static', filename='script.js') }}"></script>
+</body>
+</html>
