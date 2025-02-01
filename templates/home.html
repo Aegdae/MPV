@@ -14,12 +14,12 @@
             <div class="nav">
                 <div class="nav-left">
                     <div class="logo">
-                        <a href="{{ url_for('home') }}">MPV</a>
+                        <a href="{{ url_for('homeView.home') }}">MPV</a>
                     </div>
                 </div>
                 <div class="nav-right">
-                    <a href="{{ url_for('profile', user_id=session['user_id']) }}" class="profile-button">Perfil</a>
-                    <form action="{{ url_for('logout') }}">
+                    <a href="{{ url_for('homeView.profile', user_id=session['user_id']) }}" class="profile-button">Perfil</a>
+                    <form action="{{ url_for('homeView.logout') }}">
                         <button type="submit">Sair</button>
                     </form>
                 </div>
@@ -30,24 +30,43 @@
         <div class="main-menu">
             <h2>Para você</h2>
             <form action="/" method="post" id="tweet">
-                <textarea name="content" placeholder="Escreva o que você está pensando..." maxlength="150" rows="3" cols="77" class="text"></textarea>
-                <button type="submit" id="tweet">Postar</button>
+                    <textarea name="content" 
+                        placeholder="Escreva o que você está pensando..."
+                        maxlength="150" 
+                        rows="3" 
+                        cols="77" 
+                        class="text">
+                    </textarea>
+                    <button type="submit" id="tweet-button">Postar</button>
             </form>
+
+
             {% for post in posts %}
                 <div class="post">
-                    <p><strong><a href="{{ url_for('profile', user_id=post['user_id']) }}">{{ post['user_account'] }}</a></strong></p>
-                    <p>{{ post['content'] }}</p>
-                    <p><small>{{ post['time_since_creation'] }}</small></p>
+                    <div class="content-top">
+                        <p>
+                            <strong><a href="{{ url_for('homeView.profile', user_id=post['user_id']) }}">{{ post.user_account }}</a></strong>
+                        </p>
+                    <p id="time">
+                        <small>{{ time_since_creation(post.created_at) }}</small>
+                    </p>
+                    </div>
+                    
+                    <p id="content">{{ post.content }}</p>
                     <div class="reaction">
-                        <button id="like-button-{{ post['post_id'] }}" onclick="toggleLike({{ post['post_id'] }})" class="like-button">
-                            <span id="like-icon-{{ post['post_id'] }}" class="material-symbols-outlined {% if post['liked'] %}liked{% else %}unliked{% endif %}">
+                        <button class="like-button" 
+                                id="like-button-{{ post.post_id }}" 
+                                onclick="toggleLike({{ post.post_id }})">
+                            <span id="like-icon-{{ post.post_id }}" 
+                                    class="material-symbols-outlined {{ 'liked' if post.liked else 'unliked' }}">
                                 favorite
                             </span>
-                            <span id="like-count-{{ post['post_id'] }}" class="like-count">{{ post['likes'] }}</span>
-                        </button>                    
-                        {% if post['user_id'] == session['user_id'] %}
-                            <form action="{{ url_for('delet_post', post_id=post['post_id']) }}" method="POST" onsubmit="return confirm('Tem certeza que deseja excluir esta postagem?');">
-                                <button type="submit">Apagar</button>
+                            <span id="like-count-{{ post.post_id }}" class="like-count">{{ post.likes }}</span>
+                        </button>
+
+                        {% if post.user_id == session['user_id'] %}
+                            <form action="{{ url_for('actionView.delete_post', post_id=post['post_id']) }}" method="POST" onsubmit="return confirm('Tem certeza que deseja excluir esta postagem?');">
+                                <button type="submit" id="button-delete">Apagar</button>
                             </form>
                         {% endif %}
                     </div>

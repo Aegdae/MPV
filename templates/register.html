@@ -5,24 +5,43 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>MPV - Cadastre-se</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 </head>
 <body>
     <main>
         <div class="container-register">
             <div class="logo">
-                <a href="{{ url_for('home') }}">MPV</a>
+                <a href="{{ url_for('homeView.home') }}">MPV</a>
             </div>
             <div class="register">
-                <form action="{{ url_for('register') }}" method="POST" >
+                <form action="{{ url_for('loginView.register') }}" method="POST" >
                     <input type="email" name="email" id="email" placeholder="Email" required>
                     <input type="password" name="password" id="password" placeholder="Senha" required>
                     <input type="text" name="name" id="name" placeholder="Nome" required>
                     <input type="text" name="user" id="user" placeholder="Usuario" required>
-                    <button type="submit"">Cadastra</button>
+                    
+                    {% with messages = get_flashed_messages(with_categories=true) %}
+                        {% if messages %}
+                            {% for category, message in messages %}
+                                {% if category == 'error' %}
+                                    <div class="flash-message {{ category }}">{{ message }}</div>
+                                {% endif %}
+                            {% endfor %}
+                        {% endif %}
+                    {% endwith %}
+                    <button type="submit">Cadastra</button>
                 </form>
             </div>
         </div>
     </main> 
+    <footer>
+        <div class="toggle-mode">
+            <button id="toggle-theme">
+                <i id="theme-icon" class="fas fa-moon"></i>
+            </button>
+        </div>
+    </footer>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="{{ url_for('static', filename='script.js') }}"></script>
 </body>
 </html>

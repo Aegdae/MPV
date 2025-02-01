@@ -5,12 +5,13 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>MPV</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 </head>
 <body>
     <main>
         <div class="container-index">
             <div class="logo">
-                <a href="{{ url_for('home') }}">MPV</a>
+                <a href="{{ url_for('homeView.home') }}">MPV</a>
             </div>
             <div class="login">
                 <form action="/login" method="POST">
@@ -29,13 +30,21 @@
                 </form>
             </div>
             <div class="register">
-                <p>Não tem uma conta? <a href="{{ url_for('register') }}">Cadastre-se</a></p>
+                <p>Não tem uma conta? <a href="{{ url_for('loginView.register') }}">Cadastre-se</a></p>
             </div>
             <div class="forgot">
-                <p><a href="{{ url_for('forgot_password') }}">Esqueceu a senha?</a></p>
+                <p><a href="{{ url_for('loginView.forgot_password') }}">Esqueceu a senha?</a></p>
             </div>
         </div>
     </main>
+    <footer>
+        <div class="toggle-mode">
+            <button id="toggle-theme">
+                <i id="theme-icon" class="fas fa-moon"></i>
+            </button>
+        </div>
+    </footer>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="{{ url_for('static', filename='script.js') }}"></script>
 </body>
 </html>

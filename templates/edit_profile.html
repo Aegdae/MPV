@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Editar Perfil - MPV</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 </head>
 <body>
     <header>
@@ -12,11 +13,11 @@
             <div class="nav">
                 <div class="nav-left">
                     <div class="logo">
-                        <a href="{{ url_for('home') }}">MPV</a>
+                        <a href="{{ url_for('homeView.home') }}">MPV</a>
                     </div>
                 </div>
                 <div class="nav-right">
-                    <form action="{{ url_for('logout') }}" method="POST">
+                    <form action="{{ url_for('homeView.logout') }}" method="POST">
                         <button type="submit">Sair</button>
                     </form>
                 </div>
@@ -28,25 +29,31 @@
         <div class="edit-profile-container">
             <h1>Editar Perfil</h1>
             <div class="options">
-                <form action="{{ url_for('update_profile') }}" method="POST">
+                <form action="{{ url_for('homeView.edit_profile') }}" method="POST">
                     <label for="user_account">Usuario</label>
                     <input type="text" name="user_account" id="user_account" 
                            value="{{ user_account}}" 
                            required placeholder="Usuario">
-                    <span id="user_account_error" style="color: red; display: none;">Este nome de usuário já está em uso.</span>
-                    
                     <label for="user_name">Nome</label>
                     <input type="text" name="user_name" id="user_name" 
                            value="{{ user_name }}" 
                            required placeholder="Nome">
                     
                     <label for="bio">Bio</label>
-                    <textarea name="bio" id="bio" placeholder="Bio" rows="5" cols="20">
-                        {{ bio.strip() }}
+                    <textarea name="bio" id="bio" placeholder="Bio" rows="4" cols="15">
+                        {{ bio or '' }}
                     </textarea>
-                    
                     <button type="submit">Salvar alterações</button>
                 </form>
+                {% with messages = get_flashed_messages(with_categories=true) %}
+                    {% if messages %}
+                        {% for category, message in messages %}
+                            {% if category == 'error' %}
+                                <div class="flash-message {{ category }}">{{ message }}</div>
+                            {% endif %}
+                        {% endfor %}
+                    {% endif %}
+                {% endwith %}
             </div>
         </div>
     </main>
