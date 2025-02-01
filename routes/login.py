@@ -13,6 +13,7 @@ def login():
         email = request.form.get('email')
         password = request.form.get('password')
 
+
         if not email or not password:
             flash("Digite e-mail e senha")
             return render_template("login.html"), 400
@@ -50,11 +51,6 @@ def register():
         if Usuario.find_by_username(username):
             flash("Nome de usuario ja cadastrado. Escolha outro nome", "error")
             return render_template("register.html"), 400
-        
-        if '' in username:
-            flash("O nome de usuario invalido", "error")
-            return render_template("register.html"), 400
-
         
 
         try:

@@ -55,7 +55,7 @@ def logout():
 @homeView.route('/profile/<int:user_id>', methods=['GET', 'POST'])
 def profile(user_id):
     if 'user_id' not in session:
-        return redirect(url_for('login'))
+        return redirect(url_for('loginView.login'))
 
     logged_in_user_id = session["user_id"]
 
@@ -105,7 +105,7 @@ def profile(user_id):
 @homeView.route('/edit_profile', methods=['GET', 'POST'])
 def edit_profile():
     if 'user_id' not in session:
-        return redirect(url_for('login'))
+        return redirect(url_for('loginView.login'))
 
     user_id = session['user_id']
     user = Usuario.query.get(user_id)

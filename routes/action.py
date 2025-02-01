@@ -51,8 +51,6 @@ def like_post(post_id):
 
         db.session.commit()
 
-        print(f"Post {post_id} liked: {liked}, Like count: {post.likes}")
-
         return jsonify({"likeCount": post.likes, "liked": liked})
     
     except Exception as e:

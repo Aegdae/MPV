@@ -15,7 +15,6 @@ class Usuario(db.Model):
     reset_code = db.Column(db.String(6), nullable=True)
     reset_code_created_at = db.Column(db.DateTime, nullable=True)
     posts = db.relationship('Post', back_populates='usuario')
-    authored_posts = db.relationship('Post', back_populates='author') 
 
     ## Login ##
     @classmethod
@@ -42,7 +41,6 @@ class Post(db.Model):
     created_at = db.Column(db.DateTime, default=datetime.now)
     likes = db.Column(db.Integer, default=0)
     usuario = db.relationship('Usuario', back_populates='posts')
-    author = db.relationship('Usuario', back_populates='authored_posts')
 
     @classmethod
     def create_post(cls, user_id, content):
