@@ -12,16 +12,29 @@
     <header>
         <div class="container-home">
             <div class="nav">
-                <div class="nav-left">
-                    <div class="logo">
-                        <a href="{{ url_for('homeView.home') }}">MPV</a>
-                    </div>
+                <a href="{{ url_for('homeView.home') }}" id="logo">MPV</a>
+                <a href="{{ url_for('homeView.profile', user_id=session['user_id']) }}" class="profile-button">Perfil</a>
+
+
+                <div class="menu-bottom">
+                    <a href="#" id="menu-toggle">Mais</a>
+                    <ul class="submenu" id="main-submenu">
+                        <li id="submenu-item">
+                            <a href="#" id="theme-toggle">Tema</a>
+                        </li>
+                        <li><a href="#">Configurações</a></li>
+                        <li><a href="{{ url_for('homeView.logout') }}" id="logout">Sair</a></li>
+                    </ul>
+
+                    <ul class="submenu" id="theme-submenu">
+                        <li><a href="#" id="back-to-menu">← <span id="theme-label">Modo Escuro</span></a></li>
+                        <label class="theme-toggle">
+                            <input type="checkbox" id="theme-switcher">
+                            <span class="slider"></span>
+                        </label>                   
+                    </ul>
                 </div>
-                <div class="nav-right">
-                    <form action="{{ url_for('homeView.logout') }}">
-                        <button type="submit">Sair</button>
-                    </form>
-                </div>
+                
             </div>
         </div>
     </header>
@@ -77,13 +90,6 @@
             </div>
         </div>
     </main>
-    <footer>
-        <div class="toggle-mode">
-            <button id="toggle-theme">
-                <i id="theme-icon" class="fas fa-moon"></i>
-            </button>
-        </div>
-    </footer>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="{{ url_for('static', filename='script.js') }}"></script>
 </body>

@@ -3,16 +3,6 @@
 @import url('https://fonts.googleapis.com/css2?family=Jaro:opsz@6..72&family=Open+Sans:ital,wght@0,300..800;1,300..800&family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap');
 
 
-@supports (-moz-appearance: none) {
-    .main-menu textarea {
-        max-width: 84%;
-    }
-
-    .main-menu .post {
-        max-width: 93.3%;
-    }
-}
-
 :root {
     --bg-color: #ECECEC;
     --bg-text-area: #ECECEC;
@@ -38,12 +28,16 @@ body {
     background-color: var(--bg-color);
 }
 
+ul {
+    list-style: none;
+}
+
 
 /* Logo */
 
-.logo a {
+a#logo {
     font-family: "Jaro", sans-serif;
-    font-size: 45px;
+    font-size: 36px;
     color: #5cacc4;
     text-decoration: none;
 }
@@ -239,52 +233,134 @@ body {
 
 
 
-/* Home */
+                                                    /* Home */
+
+/* Nav */
 
 .container-home {
     display: flex;
-    flex-direction: column;
+    justify-content: space-around;
+    width: 100%;
+    align-items: flex-start;
 }
 
 .container-home .nav {
     display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin:15px 20px 40px;
-    gap: 40px;
+    flex-direction: column;
+    position: fixed;
+    left: 0;
+    top: 0;
+    width: 200px;
+    height: 100vh;
+    padding:30px 45px;
+    z-index: 1000;
 }
 
-.container-home .nav-right {
-    display: flex;
-    gap: 35px;
-    align-items: center;
-}
 
-.container-home .nav-right button {
-    padding: 8px 14px;
-    background-color: #5cacc4;
-    border-radius: 15px;
-    font-size: 15px;
-    border: none;
-    font-weight: 600;
-    color: #ffff;
-}
-
-.container-home .nav-right a {
+.container-home .nav ul li a, .container-home .nav a{
+    font-family: 'Open Sans', sans-serif;
+    font-size: 20px;
     text-decoration: none;
-    font-size: 14px;
-    color: var(--text-color);
-    font-weight: 600;
+    font-weight: 500;
+    color: #5cacc4;
 }
 
-.main-menu {
+.menu-bottom {
+    margin-top: auto;
+    position: relative;
+}
+
+.submenu{
+    display: none;
+    position: absolute;
+    left: 0;
+    bottom: 100%;
+    background-color: var(--bg-color);
+    border-radius: 5px;
+    box-shadow: 0px 5px 6px rgba(0, 0, 0, 0.1);
+    width: 170px;
+    padding: 15px;
+    box-sizing: border-box;
+}
+
+.submenu li {
+    width: 100%;
+    padding: 10px 0;
+}
+
+.submenu.active{
+    display: block;
+}
+
+.theme-toggle {
+    position: relative;
+    display: inline-block;
+    width: 40px;
+    height: 23px;
+}
+
+.theme-toggle input {
+    opacity: 0;
+    width: 0;
+    height: 0;
+}
+
+
+.slider {
+    position: absolute;
+    cursor: pointer;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: #ccc;
+    transition: 0.4s;
+    border-radius: 50px;
+}
+
+.slider:before {
+    position: absolute;
+    content: "";
+    height: 18px;
+    width: 18px;
+    border-radius: 50px;
+    left: 2px;
+    bottom: 2px;
+    background-color: white;
+    transition: 0.4s;
+}
+
+input:checked + .slider {
+    background-color: #4caf50;
+}
+
+input:checked + .slider:before {
+    transform: translateX(18px);
+}
+
+#theme-label {
+    margin-left: 10px;
+    font-size: 16px;
+    color: var(--text-color);
+    font-weight: bold;
+}
+
+.container-home a#logout {
+    color: #fc1a1a;
+}
+
+/* Post */
+
+.container-home .main-menu {
     display: flex;
     flex-direction: column;
     align-items: center;
+    flex-grow: 1;
+    width: calc(100% - 250px);
     max-width: 800px;
     margin: 0 auto;
     padding: 10px;
-    width: 100%;
+    margin-top: 30px;
 }
 
 
@@ -352,13 +428,13 @@ body {
 }
 
 .main-menu .post .content-top p {
-    margin-left: 10px;
-    font-size: 17px;
+    margin-left: 12px;
+    font-size: 19px;
 }
 
 .main-menu .post p#content {
     display: flex;
-    margin-left: 8px;
+    margin-left: 11px;
     font-size: 15px;
     margin-top: 8px;
 }
@@ -417,16 +493,17 @@ body {
 
 .reaction .like-count {
     color: var(--text-color);
+    margin-left: 5px;
 }
 
 
 
-/* Profile */
+                                                /* Profile */
 
 .profile-container {
     display: flex;
     flex-direction: column;
-    margin-top: 15px;
+    margin-top: 45px;
 }
 
 .profile-container .profile-user {
@@ -617,19 +694,14 @@ body {
 }
 
 
-/* Footer */
-.toggle-mode {
-    position: fixed;
-    left: 2px;
-    bottom: 2px;
-}
 
-.toggle-mode button {
-    border-radius: 15px;
-    width: 25px;
-    height: 25px;
-    border: none;
-    color: #ffffff;
-    background-color: var(--toggle-theme);
-    transition: ease 0.4s;
+
+@supports (-moz-appearance: none) {
+    .main-menu textarea {
+        max-width: 84%;
+    }
+
+    .main-menu .post {
+        max-width: 93.3%;
+    }
 }

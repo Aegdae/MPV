@@ -10,9 +10,7 @@
 <body>
     <main>
         <div class="container-index">
-            <div class="logo">
-                <a href="{{ url_for('homeView.home') }}">MPV</a>
-            </div>
+            <a href="{{ url_for('homeView.home') }}" id="logo">MPV</a>
             <div class="login">
                 <form action="/login" method="POST">
                     <input type="email" name="email" id="email" placeholder="Email" required>
@@ -37,13 +35,6 @@
             </div>
         </div>
     </main>
-    <footer>
-        <div class="toggle-mode">
-            <button id="toggle-theme">
-                <i id="theme-icon" class="fas fa-moon"></i>
-            </button>
-        </div>
-    </footer>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="{{ url_for('static', filename='script.js') }}"></script>
 </body>

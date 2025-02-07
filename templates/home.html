@@ -7,80 +7,84 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200&icon_names=favorite" />
+    
 </head>
 <body>
     <nav>
         <div class="container-home">
             <div class="nav">
-                <div class="nav-left">
-                    <div class="logo">
-                        <a href="{{ url_for('homeView.home') }}">MPV</a>
+                <a href="{{ url_for('homeView.home') }}" id="logo">MPV</a>
+                <a href="{{ url_for('homeView.profile', user_id=session['user_id']) }}" class="profile-button">Perfil</a>
+
+
+                <div class="menu-bottom">
+                    <a href="#" id="menu-toggle">Mais</a>
+                    <ul class="submenu" id="main-submenu">
+                        <li id="submenu-item">
+                            <a href="#" id="theme-toggle">Tema</a>
+                        </li>
+                        <li><a href="#">Configurações</a></li>
+                        <li><a href="{{ url_for('homeView.logout') }}" id="logout">Sair</a></li>
+                    </ul>
+
+                    <ul class="submenu" id="theme-submenu">
+                        <li><a href="#" id="back-to-menu">← <span id="theme-label">Modo Escuro</span></a></li>
+                        <label class="theme-toggle">
+                            <input type="checkbox" id="theme-switcher">
+                            <span class="slider"></span>
+                        </label>                   
+                    </ul>
+                </div>
+
+            </div>
+            <div class="main-menu">
+                <h2>Para você</h2>
+                <form action="/" method="post" id="tweet">
+                        <textarea name="content" 
+                            placeholder="Escreva o que você está pensando..."
+                            maxlength="150" 
+                            rows="3" 
+                            cols="77" 
+                            class="text">
+                        </textarea>
+                        <button type="submit" id="tweet-button">Postar</button>
+                </form>
+    
+    
+                {% for post in posts %}
+                    <div class="post">
+                        <div class="content-top">
+                            <p>
+                                <strong><a href="{{ url_for('homeView.profile', user_id=post['user_id']) }}">{{ post.user_account }}</a></strong>
+                            </p>
+                        <p id="time">
+                            <small>{{ time_since_creation(post.created_at) }}</small>
+                        </p>
+                        </div>
+                        
+                        <p id="content">{{ post.content }}</p>
+                        <div class="reaction">
+                            <button class="like-button" 
+                                    id="like-button-{{ post.post_id }}" 
+                                    onclick="toggleLike({{ post.post_id }})">
+                                <span id="like-icon-{{ post.post_id }}" 
+                                        class="material-symbols-outlined {{ 'liked' if post.liked else 'unliked' }}">
+                                    favorite
+                                </span>
+                                <span id="like-count-{{ post.post_id }}" class="like-count">{{ post.likes }}</span>
+                            </button>
+    
+                            {% if post.user_id == session['user_id'] %}
+                                <form action="{{ url_for('actionView.delete_post', post_id=post['post_id']) }}" method="POST" onsubmit="return confirm('Tem certeza que deseja excluir esta postagem?');">
+                                    <button type="submit" id="button-delete">Apagar</button>
+                                </form>
+                            {% endif %}
+                        </div>
                     </div>
-                </div>
-                <div class="nav-right">
-                    <a href="{{ url_for('homeView.profile', user_id=session['user_id']) }}" class="profile-button">Perfil</a>
-                    <form action="{{ url_for('homeView.logout') }}">
-                        <button type="submit">Sair</button>
-                    </form>
-                </div>
+                {% endfor %}
             </div>
         </div>
     </nav>
-    <main>
-        <div class="main-menu">
-            <h2>Para você</h2>
-            <form action="/" method="post" id="tweet">
-                    <textarea name="content" 
-                        placeholder="Escreva o que você está pensando..."
-                        maxlength="150" 
-                        rows="3" 
-                        cols="77" 
-                        class="text">
-                    </textarea>
-                    <button type="submit" id="tweet-button">Postar</button>
-            </form>
-
-
-            {% for post in posts %}
-                <div class="post">
-                    <div class="content-top">
-                        <p>
-                            <strong><a href="{{ url_for('homeView.profile', user_id=post['user_id']) }}">{{ post.user_account }}</a></strong>
-                        </p>
-                    <p id="time">
-                        <small>{{ time_since_creation(post.created_at) }}</small>
-                    </p>
-                    </div>
-                    
-                    <p id="content">{{ post.content }}</p>
-                    <div class="reaction">
-                        <button class="like-button" 
-                                id="like-button-{{ post.post_id }}" 
-                                onclick="toggleLike({{ post.post_id }})">
-                            <span id="like-icon-{{ post.post_id }}" 
-                                    class="material-symbols-outlined {{ 'liked' if post.liked else 'unliked' }}">
-                                favorite
-                            </span>
-                            <span id="like-count-{{ post.post_id }}" class="like-count">{{ post.likes }}</span>
-                        </button>
-
-                        {% if post.user_id == session['user_id'] %}
-                            <form action="{{ url_for('actionView.delete_post', post_id=post['post_id']) }}" method="POST" onsubmit="return confirm('Tem certeza que deseja excluir esta postagem?');">
-                                <button type="submit" id="button-delete">Apagar</button>
-                            </form>
-                        {% endif %}
-                    </div>
-                </div>
-            {% endfor %}
-        </div>
-    </main>
-    <footer>
-        <div class="toggle-mode">
-            <button id="toggle-theme">
-                <i id="theme-icon" class="fas fa-moon"></i>
-            </button>
-        </div>
-    </footer>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="{{ url_for('static', filename='script.js') }}" defer></script>
 </body>
