@@ -69,3 +69,4 @@ def delete_post(post_id):
 
     
     return redirect(url_for("homeView.home"))
+

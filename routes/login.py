@@ -153,8 +153,3 @@ def reset_password():
             flash("Erro ao processar redefinição. Tente novamente", "error")
 
     return render_template('reset_password.html')
-
-
-
-
-

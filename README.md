@@ -24,7 +24,21 @@ Este projeto é uma aplicação de rede social completa, com funcionalidades de 
   ```plaintext
     Social/
     │
-    ├── Static/
+    ├── application/
+    │   └── __init__.py
+    │
+    ├── models/   
+    │   └──  models.py
+    │
+    ├── routes/
+    │   ├── action.py
+    │   ├── home.py
+    │   └── login.py
+    │
+    ├── services/
+    │   ├── email_service.py
+    │   └── time_created.py
+    ├── static/
     │   ├── script.js
     │   └── style.css
     │

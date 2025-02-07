@@ -132,4 +132,5 @@ def edit_profile():
     return render_template('edit_profile.html',
                             user_account=user.user_account,
                             user_name=user.user_name,
-                            bio=user.bio if user.bio else "") 
+                            bio=user.bio if user.bio else "")
+

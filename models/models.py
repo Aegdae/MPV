@@ -33,7 +33,6 @@ class Usuario(db.Model):
         return bcrypt.check_password_hash(self.user_password, password)
     
 
-
 class Post(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     user_id = db.Column(db.Integer, db.ForeignKey('usuario.id'), nullable=False)
@@ -79,6 +78,7 @@ class Post(db.Model):
 
         db.session.delete(post)
         db.session.commit()
+
 
 class Likes(db.Model):
     post_id = db.Column(db.Integer, db.ForeignKey('post.id'), primary_key=True, nullable=False)
