@@ -68,7 +68,6 @@ class Post(db.Model):
 
     @classmethod
     def delete_post(cls, post_id, user_id):
-        """Deleta um post e seus comentarios, se o usuário for o dono"""
         post = cls.query.filter_by(id=post_id, user_id=user_id).first()
 
         if not post:
