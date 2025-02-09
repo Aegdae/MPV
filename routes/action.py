@@ -59,14 +59,38 @@ def like_post(post_id):
         return jsonify({"error": str(e)}), 500
 
 
-@actionView.route("/delete_post/<int:post_id>", methods=["POST"])
+@actionView.route("/delete_post/<int:post_id>", methods=["DELETE"])
 def delete_post(post_id):
     if 'user_id' not in session:
         return redirect(url_for('loginView.login'))
     
     user_id = session['user_id']
-    Post.delete_post(post_id, user_id)
 
+    post = Post.query.get(post_id)
     
-    return redirect(url_for("homeView.home"))
+    if post and post.user_id == user_id:
+        Post.delete_post(post_id, user_id)
+        return jsonify({"success": True, "message": "Postagem excluída com sucesso!"})
+    else:
+        return jsonify({"success": False, "message": "Erro: você não tem permissão para excluir este post."}), 400
 
+
+@actionView.route("/edit_post/<int:post_id>", methods=["PUT"])
+def edit_post(post_id):
+    
+    if "user_id" not in session:
+        return redirect(url_for("loginView.login"))
+
+    post = Post.query.get(post_id)
+    if not post:
+        return jsonify({"success": False, "message": "Post não encontrado."}), 404
+
+    data = request.get_json()
+    new_content = data.get('content', '').strip()
+
+    if new_content:
+        post.content = new_content
+        db.session.commit()
+        return jsonify({"success": True, "content": post.content})
+
+    return jsonify({"success": False, "message": "Conteúdo vazio."}), 400

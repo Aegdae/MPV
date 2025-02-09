@@ -11,9 +11,10 @@
 <body>
     <header>
         <div class="container-home">
-            <div class="nav">
+            <div class="nav-menu">
                 <a href="{{ url_for('homeView.home') }}" id="logo">MPV</a>
-                <a href="{{ url_for('homeView.profile', user_id=session['user_id']) }}" class="profile-button">Perfil</a>
+                <a href="{{ url_for('homeView.home') }}" id="home-link">Pagina Inicial</a>
+                <a href="{{ url_for('homeView.profile', user_id=session['user_id']) }}" class="profile-button" id="profile-link">Perfil</a>
 
 
                 <div class="menu-bottom">
@@ -22,19 +23,33 @@
                         <li id="submenu-item">
                             <a href="#" id="theme-toggle">Tema</a>
                         </li>
-                        <li><a href="#">Configurações</a></li>
-                        <li><a href="{{ url_for('homeView.logout') }}" id="logout">Sair</a></li>
+                        <li id="submenu-item">
+                            <a href="#" id="language-toggle">Idioma</a>
+                        </li>
+                        <li><a href="#" id="settings-toggle">Configurações</a></li>
+                        <li><a href="{{ url_for('homeView.logout') }}" id="logout-link">Sair</a></li>
                     </ul>
 
                     <ul class="submenu" id="theme-submenu">
-                        <li><a href="#" id="back-to-menu">← <span id="theme-label">Modo Escuro</span></a></li>
+                        <li><a href="#" id="back-to-theme-menu">← <span id="theme-label">Modo Escuro</span></a></li>
                         <label class="theme-toggle">
                             <input type="checkbox" id="theme-switcher">
                             <span class="slider"></span>
                         </label>                   
                     </ul>
+
+                    <ul class="submenu" id="language-submenu">
+                        <li><a href="#" id="back-to-language-menu">← <span id="language-span">Idioma</span></a></li>
+                        <li>
+                            <label for="language-selector" id="language-label">Escolha o idioma:</label>
+                            <select id="language-selector">
+                                <option value="pt">Português</option>
+                                <option value="en">English</option>
+                            </select>
+                        </li>
+                    </ul>
+
                 </div>
-                
             </div>
         </div>
     </header>
@@ -43,15 +58,44 @@
         <div class="profile-container">
             <div class="profile-user">
                 <div class="user">
-                    <h1>{{ user.user_account }}</h1>
+                    <h1 id="display-user-account">{{ user.user_account }}</h1>
                     {% if user.id == session['user_id'] %}
-                        <a href="{{ url_for('homeView.edit_profile') }}" class="edit-profile-button" id="edit-perfil">Editar Perfil</a>
+                        <a class="edit-profile-button" id="edit-profile-button">Editar Perfil</a>
                     {% endif %}
                 </div>
+                
+                <div id="edit-profile-menu" class="options hidden">
+                    <form id="edit-profile-form" action="{{ url_for('homeView.edit_profile') }}" method="POST">
+                        <div class="btn">
+                            <h1>Editar perfil</h1>
+                            <button type="submit" id="save-edit-profile">Salvar</button>
+                        </div>
+
+                        <input type="text" name="user_account" id="user_account" 
+                               value="{{ user.user_account }}" 
+                               required placeholder="Usuário">
+                
+                        <input type="text" name="user_name" id="user_name" 
+                               value="{{ user.user_name }}" 
+                               required placeholder="Nome">
+                
+                        <textarea name="bio" id="bio" placeholder="Bio" rows="4" cols="15">{{ user.bio or '' }}</textarea>
+                    </form>
+                    {% with messages = get_flashed_messages(with_categories=true) %}
+                        {% if messages %}
+                            {% for category, message in messages %}
+                                {% if category == 'error' %}
+                                    <div class="flash-message {{ category }}">{{ message }}</div>
+                                {% endif %}
+                            {% endfor %}
+                        {% endif %}
+                    {% endwith %}
+                </div>
+
                 <div class="information">
-                    <p><strong>Posts:</strong> {{ num_posts }}</p>
-                    <p><strong>Seguidores:</strong> {{ followers_count }}</p>
-                    <p><strong>Seguindo:</strong> {{ following_count }}</p>
+                    <p><strong id="num-posts">Posts:</strong> {{ num_posts }}</p>
+                    <p><strong id="followers">Seguidores:</strong> {{ followers_count }}</p>
+                    <p><strong id="following">Seguindo:</strong> {{ following_count }}</p>
                     {% if user.id != session['user_id'] %}
                         <form action="{{ url_for('actionView.follow_unfollow', user_id=user.id) }}" method="POST">
                             <button type="submit" class="follow">
@@ -75,13 +119,13 @@
                     {% for post in posts %}
                         <div class="post">
                             <div class="content-top">
-                                <p id="user_account"><strong>{{ user.user_account }}</strong></p>
+                                <p id="display-user-account"><strong>{{ user.user_account }}</strong></p>
                                 <p id="time">
                                     <small>{{ time_since_creation(post['created_at']) }}</small>
                                 </p>
                             </div>
                             
-                            <p id="content">{{ post['content'] }}</p>
+                            <p id="content">{{ post.content.replace('\n', '<br>') | safe }}</p>
                         </div>
                     {% endfor %}
                 {% else %}
@@ -91,6 +135,6 @@
         </div>
     </main>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <script src="{{ url_for('static', filename='script.js') }}"></script>
+    <script src="{{ url_for('static', filename='profile.js') }}" defer></script>
 </body>
 </html>

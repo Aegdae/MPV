@@ -30,6 +30,8 @@ def home():
 
     liked_posts_id = {like.post_id for like in Likes.query.filter_by(user_id=user_id).all()}
 
+    
+
     posts_data = [
         {
             "post_id": post.id,
@@ -38,7 +40,7 @@ def home():
             "content": post.content,
             "created_at": post.created_at,
             "likes": post.likes,
-            "liked": post.id in liked_posts_id
+            "liked": post.id in liked_posts_id,
         }
         for post in posts
     ]
@@ -102,35 +104,34 @@ def profile(user_id):
 )
 
 
-@homeView.route('/edit_profile', methods=['GET', 'POST'])
+@homeView.route('/edit_profile', methods=['POST'])
 def edit_profile():
     if 'user_id' not in session:
-        return redirect(url_for('loginView.login'))
+        return jsonify({"success": False, "message": "Usuário não autenticado"}), 401
 
     user_id = session['user_id']
     user = Usuario.query.get(user_id)
 
+    data = request.get_json()
+    new_user_account = data.get('user_account', '').strip()
+    new_user_name = data.get('user_name', '').strip()
+    new_bio = data.get('bio', '').strip()
 
-    if request.method == 'POST':
-        new_user_account = request.form.get('user_account', '').strip()
-        new_user_name = request.form.get('user_name', '').strip()
-        new_bio = request.form.get('bio', '').strip()
+    if ' ' in new_user_account:
+        return jsonify({"success": False, "message": "Nome de usuário inválido."}), 400
 
-        if ' ' in new_user_account:
-            flash("Nome de usuario invalido.", "error")
-            return redirect(url_for('homeView.edit_profile'))
+    if new_user_account or new_user_name or new_bio:
+        user.user_account = new_user_account or user.user_account
+        user.user_name = new_user_name or user.user_name
+        user.bio = new_bio or user.bio
+        db.session.commit()
+        return jsonify({
+            "success": True,
+            "user_account": user.user_account,
+            "user_name": user.user_name,
+            "bio": user.bio
+        })
 
-        if new_user_account or new_user_name or new_bio:
-            user.user_account = new_user_account or user.user_account
-            user.user_name = new_user_name or user.user_name
-            user.bio = new_bio or user.bio
-            db.session.commit()
-            return redirect(url_for('homeView.profile', user_id=user_id))
-    
-    bio = user.bio.strip() if user.bio else ''
-    
-    return render_template('edit_profile.html',
-                            user_account=user.user_account,
-                            user_name=user.user_name,
-                            bio=user.bio if user.bio else "")
+    return jsonify({"success": False, "message": "Nenhuma alteração feita."}), 400
+
 

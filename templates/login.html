@@ -19,7 +19,7 @@
                         {% if messages %}
                             {% for category, message in messages %}
                                 {% if category == 'error' %}
-                                    <div class="flash-message {{ category }}">{{ message }}</div>
+                                    <div id="error-message" class="flash-message {{ category }}">{{ message }}</div>
                                 {% endif %}
                             {% endfor %}
                         {% endif %}
@@ -28,14 +28,23 @@
                 </form>
             </div>
             <div class="register">
-                <p>Não tem uma conta? <a href="{{ url_for('loginView.register') }}">Cadastre-se</a></p>
+                <p id="register-text">Não tem uma conta? <a href="{{ url_for('loginView.register') }}">Cadastre-se</a></p>
             </div>
             <div class="forgot">
-                <p><a href="{{ url_for('loginView.forgot_password') }}">Esqueceu a senha?</a></p>
+                <p id="forgot-text"><a href="{{ url_for('loginView.forgot_password') }}">Esqueceu a senha?</a></p>
             </div>
         </div>
     </main>
+    <footer>
+        <div class="dropdown" id="language-dropdown">
+            <button class="dropbtn" id="language-btn" onclick="toggleDropdown()">Português</button>
+            <div class="dropdown-content">
+                <a href="#" onclick="changeLanguage('pt')">Português</a>
+                <a href="#" onclick="changeLanguage('en')">English</a>
+            </div>
+        </div>
+    </footer>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <script src="{{ url_for('static', filename='script.js') }}"></script>
+    <script src="{{ url_for('static', filename='login.js') }}" defer></script>
 </body>
 </html>

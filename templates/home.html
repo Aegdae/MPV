@@ -7,15 +7,14 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200&icon_names=favorite" />
-    
 </head>
 <body>
     <nav>
         <div class="container-home">
-            <div class="nav">
+            <div class="nav-menu">
                 <a href="{{ url_for('homeView.home') }}" id="logo">MPV</a>
-                <a href="{{ url_for('homeView.profile', user_id=session['user_id']) }}" class="profile-button">Perfil</a>
-
+                <a href="{{ url_for('homeView.home') }}" id="home-link">Página Inicial</a>
+                <a href="{{ url_for('homeView.profile', user_id=session['user_id']) }}" class="profile-button" id="profile-link">Perfil</a>
 
                 <div class="menu-bottom">
                     <a href="#" id="menu-toggle">Mais</a>
@@ -23,46 +22,73 @@
                         <li id="submenu-item">
                             <a href="#" id="theme-toggle">Tema</a>
                         </li>
-                        <li><a href="#">Configurações</a></li>
-                        <li><a href="{{ url_for('homeView.logout') }}" id="logout">Sair</a></li>
+                        <li id="submenu-item">
+                            <a href="#" id="language-toggle">Idioma</a>
+                        </li>
+                        <li><a href="#" id="settings-toggle">Configurações</a></li>
+                        <li><a href="{{ url_for('homeView.logout') }}" id="logout-link">Sair</a></li>
                     </ul>
 
                     <ul class="submenu" id="theme-submenu">
-                        <li><a href="#" id="back-to-menu">← <span id="theme-label">Modo Escuro</span></a></li>
+                        <li><a href="#" id="back-to-theme-menu">← <span id="theme-label">Modo Escuro</span></a></li>
                         <label class="theme-toggle">
                             <input type="checkbox" id="theme-switcher">
                             <span class="slider"></span>
                         </label>                   
                     </ul>
-                </div>
 
+                    <ul class="submenu" id="language-submenu">
+                        <li><a href="#" id="back-to-language-menu">← <span id="language-span">Idioma</span></a></li>
+                        <li>
+                            <label for="language-selector" id="language-label">Escolha o idioma:</label>
+                            <select id="language-selector">
+                                <option value="pt">Português</option>
+                                <option value="en">English</option>
+                            </select>
+                        </li>
+                    </ul>
+
+                </div>
             </div>
             <div class="main-menu">
-                <h2>Para você</h2>
+                <h2 id="for-you-text">Para você</h2>
+
                 <form action="/" method="post" id="tweet">
                         <textarea name="content" 
                             placeholder="Escreva o que você está pensando..."
                             maxlength="150" 
                             rows="3" 
                             cols="77" 
-                            class="text">
+                            class="text" id="post-placeholder">
                         </textarea>
                         <button type="submit" id="tweet-button">Postar</button>
                 </form>
-    
-    
+
                 {% for post in posts %}
                     <div class="post">
                         <div class="content-top">
                             <p>
                                 <strong><a href="{{ url_for('homeView.profile', user_id=post['user_id']) }}">{{ post.user_account }}</a></strong>
+                                <small id="time_since_creation">{{ time_since_creation(post.created_at) }}</small>
                             </p>
-                        <p id="time">
-                            <small>{{ time_since_creation(post.created_at) }}</small>
-                        </p>
+                            <a href="#" id="content-toggle">⋮</a>
+                            <ul class="content-submenu" id="content-submenu">
+                                <li id="submenu-item">
+                                    {% if post.user_id == session['user_id'] %}
+                                        <div id="post-container-{{ post['post_id'] }}" class="edit-container">
+                                            <textarea id="edit-textarea-{{ post['post_id'] }}" class="hidden">{{ post['content'] }}</textarea>
+                                            <button onclick="saveEdit({{ post['post_id'] }})" class="hidden" id="save-button-{{ post['post_id'] }}">Salvar</button>
+                                            <a href="#" onclick="cancelEdit({{ post['post_id'] }})" id="cancel-button-{{ post['post_id'] }}" class="hidden">Cancelar</a>
+                                        </div>
+                                        <a href="#" class="button-edit" data-post-id="{{ post['post_id'] }}" id="edit-button">Editar</a>
+                                        <a href="#" class="button-delete" data-post-id="{{ post['post_id'] }}" id="delete-button">Apagar</a>
+                                    {% endif %}
+                                </li>
+                            </ul>
                         </div>
-                        
-                        <p id="content">{{ post.content }}</p>
+
+                        <p id="content">{{ post.content.replace('\n', '<br>') | safe }}</p>
+
                         <div class="reaction">
                             <button class="like-button" 
                                     id="like-button-{{ post.post_id }}" 
@@ -73,19 +99,14 @@
                                 </span>
                                 <span id="like-count-{{ post.post_id }}" class="like-count">{{ post.likes }}</span>
                             </button>
-    
-                            {% if post.user_id == session['user_id'] %}
-                                <form action="{{ url_for('actionView.delete_post', post_id=post['post_id']) }}" method="POST" onsubmit="return confirm('Tem certeza que deseja excluir esta postagem?');">
-                                    <button type="submit" id="button-delete">Apagar</button>
-                                </form>
-                            {% endif %}
                         </div>
+                        
                     </div>
                 {% endfor %}
             </div>
         </div>
     </nav>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <script src="{{ url_for('static', filename='script.js') }}" defer></script>
+    <script src="{{ url_for('static', filename='home.js') }}" defer></script>
 </body>
 </html>
