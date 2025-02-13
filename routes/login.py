@@ -73,7 +73,6 @@ def register():
             flash(f"Erro ao criar conta. Tente novamente", "error")
             return render_template("register.html"), 500
 
-
     return render_template('register.html')
 
 

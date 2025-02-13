@@ -104,7 +104,7 @@ def profile(user_id):
 )
 
 
-@homeView.route('/edit_profile', methods=['POST'])
+@homeView.route('/edit_profile', methods=['PUT'])
 def edit_profile():
     if 'user_id' not in session:
         return jsonify({"success": False, "message": "Usuário não autenticado"}), 401

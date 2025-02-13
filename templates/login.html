@@ -28,7 +28,7 @@
                 </form>
             </div>
             <div class="register">
-                <p id="register-text">Não tem uma conta? <a href="{{ url_for('loginView.register') }}">Cadastre-se</a></p>
+                <p id="register-text">Nao tem conta? <a href="{{ url_for('loginView.register')}}">Cadastre-se</a></p>
             </div>
             <div class="forgot">
                 <p id="forgot-text"><a href="{{ url_for('loginView.forgot_password') }}">Esqueceu a senha?</a></p>
@@ -43,7 +43,7 @@
                 <a href="#" onclick="changeLanguage('en')">English</a>
             </div>
         </div>
-    </footer>
+    </footer>    
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="{{ url_for('static', filename='login.js') }}" defer></script>
 </body>

@@ -466,8 +466,15 @@ input:checked + .slider:before {
     font-size: 15px;
 }
 
+#language-submenu select {
+    margin-top: 8px;
+    outline: none;
+    border-radius: 5px;
+}
+
 
 /* Post */
+
 
 .container-home .main-menu {
     display: flex;
@@ -771,6 +778,7 @@ input:checked + .slider:before {
     padding: 8px 15px;
     border: none;
     border-radius: 15px;
+    cursor: pointer;
 }
 
 .options form {

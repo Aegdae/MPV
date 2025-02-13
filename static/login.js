@@ -1,13 +1,19 @@
 document.addEventListener("DOMContentLoaded", function () {
+
+    const urls = {
+        registerUrl: "/register",
+        forgotPasswordUrl: "/forgot_password"
+    };
+
     const translations = {
         en: {
-            registerText: "Don't have an account? <a href='{{ url_for('loginView.register') }}'>Sign up</a>",
-            forgotText: "<a href='{{ url_for('loginView.forgot_password') }}'>Forgot password?</a>",
+            registerText: `Don't have an account? <a href="${urls.registerUrl}">Sign up</a>`,
+            forgotText: `<a href="${urls.forgotPasswordUrl}">Forgot password?</a>`,
             errorMessage: "Incorrect email or password."
         },
         pt: {
-            registerText: "Não tem uma conta? <a href='{{ url_for('loginView.register') }}'>Cadastre-se</a>",
-            forgotText: "<a href='{{ url_for('loginView.forgot_password') }}'>Esqueceu a senha?</a>",
+            registerText: `Não tem uma conta? <a href="${urls.registerUrl}">Cadastre-se</a>`,
+            forgotText: `<a href="${urls.forgotPasswordUrl}">Esqueceu a senha?</a>`,
             errorMessage: "E-mail ou senha incorretos."
         }
     };

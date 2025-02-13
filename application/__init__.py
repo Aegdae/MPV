@@ -8,6 +8,7 @@ load_dotenv(dotenv_path="env/db_config.env")
 bcrypt = Bcrypt()
 db = SQLAlchemy()
 
+
 def create_app():
     app = Flask(__name__, 
                 template_folder=r'C:\Users\Jonna\OneDrive\Documentos\Estudos\Python\Social\templates',
@@ -27,7 +28,7 @@ def create_app():
     app.register_blueprint(homeView, url_prefix='/')
     app.register_blueprint(loginView, url_prefix='/')
     app.register_blueprint(actionView)
-
+    
     
 
     return app

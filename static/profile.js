@@ -86,7 +86,7 @@ document.addEventListener("DOMContentLoaded", function () {
         };
 
         fetch(form.action, {
-            method: "POST",
+            method: "PUT",
             headers: {
                 "Content-Type": "application/json",
             },
